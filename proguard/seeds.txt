@@ -1,3 +1,0 @@
-net.andirc.kindleroot.KindlerootActivity
-net.andirc.kindleroot.DirectCall
-net.andirc.kindleroot.Disable
