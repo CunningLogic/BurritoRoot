@@ -1,0 +1,118 @@
+Please see the LICENSE file
+
+BurritoRoot is a root exploit for the Kindle Fire, released to gain root on the 6.2.1 firmware. Originally
+licensed under a proprietary license, we re-released under the GPL due to blatant code theft by the author
+of 'unlockroot'. Not only is he a thief, but a moron, hell he stole the unroot code of our's that was broken.
+
+How it all works
+
+In /sbin/adbd is a secondary property check to see if adbD can run as root, "service.root.amazon.allow". Normally
+this can only be set by a system or root process.
+<snippet>
+
+.rodata:000203EC aService_root_0 DCB "service.root.amazon.allow",0
+.rodata:000203EC                                         ; DATA XREF: .text:0000EFECo
+.rodata:00020406                 ALIGN 4
+.rodata:00020408 a1_0            unicode 0, <1>,0        ; DATA XREF: .text:0000EFF0o
+.rodata:00020408                                         ; .text:0000F000o
+.rodata:0002040C aAdbdCannotRunA DCB "adbd cannot run as root in production builds",0xA,0
+.rodata:0002040C                                         ; DATA XREF: .text:0000EFF4o
+.rodata:0002043A                 ALIGN 4
+.rodata:0002043C aService_adb__1 DCB "service.adb.root",0 ; DATA XREF: .text:0000EFFCo
+.rodata:0002044D                 ALIGN 0x10
+.rodata:00020450 aRestartingAdbd DCB "restarting adbd as root",0xA,0
+.rodata:00020450                                         ; DATA XREF: .text:0
+
+</snippet>
+
+In Services.jar is the BroadcastReveiver com.lab126.services.EasterEggReceiver that allows the above property to
+be set with a broadcast from any application.
+
+<snippet>
+.method private enable(Z)V
+    .locals 2
+    .parameter "enabled"
+
+    .prologue
+    .line 47
+    if-eqz p1, :cond_0
+
+    const-string v1, "1"
+
+    move-object v0, v1
+
+    .line 49
+    .local v0, value:Ljava/lang/String;
+    :goto_0
+    const-string v1, "service.root.amazon.allow"
+
+    invoke-static {v1, v0}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+
+    .line 51
+    return-void
+
+    .line 47
+    .end local v0           #value:Ljava/lang/String;
+    :cond_0
+    const-string v1, "0"
+
+    move-object v0, v1
+
+    goto :goto_0
+.end method
+</snipper>
+
+After causing this property to be set, the user can simply do "adb root" and then adbD will run as root.
+
+
+
+    /**
+     * @author jcase - Justin Case - jcase@cunninglogic.com
+     * @author TeamAndIRC - http://twitter.com/TeamAndIRC
+     * 
+     * Testers:
+     * VashyPooh
+     * Trevor Eckhart
+     * 
+     * Great Being of Knowledge:
+     * IOMonster
+     * 
+     * Supporters:
+     * http://AndroidPolice.com
+     * http://RootzWiki.com - b16 for the graphics!
+     * 
+     * Copyright 2011 CunningLogic
+     * This file is part of BurritoRoot.
+     * 
+     * BurritoRoot is free software: you can redistribute it and/or modify it under the terms of the 
+     * GNU eneral Public License as published by the Free Software Foundation, either version 3 of 
+     * the License, or (at your option) any later version.
+     * 
+     * BurritoRoot is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+     * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+     * General Public License for more details.
+     * 
+     * You should have received a copy of the GNU General Public License along with Foobar. If not, see
+     * http://www.gnu.org/licenses/gpl-3.0.txt
+     * 
+     */
+
+	/**
+	 * The Wall Of Shame
+	 * 
+	 * Organizations and persons listed below have violated the copyright and/or licensing of BurritoRoot
+	 * and have had their rights to use any part or derivative of BurritoRoot revoked.
+	 * 
+	 * You are scum, you steal the hard work of our developers. You even stole my non working unroot code
+	 * you f*cking bum.
+	 * 
+	 * Author of unlockroot
+	 * http://www(dot)unlockroot(dot)com
+	 * Liang Bing
+	 * cx66@msn.com
+	 * support@unlockroot.com
+	 * Hong  Kong
+	 * tel: 86 01088524866 
+	 * fax: 86 01088524866 
+	 * 
+	 */
