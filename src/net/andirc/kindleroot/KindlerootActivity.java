@@ -57,8 +57,6 @@ public class KindlerootActivity extends Activity {
 	 * cx66@msn.com
 	 * support@unlockroot.com
 	 * HongKong
-	 * tel: 86 01088524866 
-	 * fax: 86 01088524866 
 	 * 
 	 */
 	
